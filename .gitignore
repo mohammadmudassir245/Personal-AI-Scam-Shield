@@ -1,0 +1,36 @@
+# ── Python ─────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.pyo
+.venv/
+venv/
+.env
+.env.*
+
+# ── ML models (auto-generated on first run — not tracked) ──────
+backend/models/*.joblib
+backend/models/*.pkl
+backend/models/*.json
+
+# ── SQLite database ────────────────────────────────────────────
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+
+# ── Frontend build artifacts ───────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ── OS / Editor ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# ── Test / CI ──────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage

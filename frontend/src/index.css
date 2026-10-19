@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════
+   PERSONAL AI SCAM SHIELD — Design System
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Core palette */
+  --bg:           #060d14;
+  --bg-2:         #0b1622;
+  --bg-3:         #0f1f2e;
+  --ink:          #ddeaf6;
+  --ink-dim:      #8ea8be;
+  --muted:        #5a7a93;
+  --line:         rgba(100, 160, 210, 0.12);
+  --line-bright:  rgba(100, 160, 210, 0.22);
+
+  /* Accent — mint/teal */
+  --mint:         #41e9a0;
+  --mint-dim:     rgba(65, 233, 160, 0.12);
+  --mint-glow:    rgba(65, 233, 160, 0.25);
+
+  /* Severity colours */
+  --critical:     #ff4757;
+  --critical-bg:  rgba(255, 71, 87, 0.12);
+  --high:         #ff8c42;
+  --high-bg:      rgba(255, 140, 66, 0.12);
+  --medium:       #ffd32a;
+  --medium-bg:    rgba(255, 211, 42, 0.12);
+  --low:          #41e9a0;
+  --low-bg:       rgba(65, 233, 160, 0.10);
+  --info:         #74b9ff;
+  --info-bg:      rgba(116, 185, 255, 0.10);
+
+  /* Risk level backgrounds */
+  --risk-low-bg:      rgba(65, 233, 160, 0.07);
+  --risk-low-border:  rgba(65, 233, 160, 0.3);
+  --risk-mod-bg:      rgba(255, 211, 42, 0.07);
+  --risk-mod-border:  rgba(255, 211, 42, 0.3);
+  --risk-high-bg:     rgba(255, 140, 66, 0.07);
+  --risk-high-border: rgba(255, 140, 66, 0.3);
+  --risk-crit-bg:     rgba(255, 71, 87, 0.07);
+  --risk-crit-border: rgba(255, 71, 87, 0.3);
+
+  /* Gauge colours */
+  --gauge-low:    #41e9a0;
+  --gauge-mod:    #ffd32a;
+  --gauge-high:   #ff8c42;
+  --gauge-crit:   #ff4757;
+
+  /* Typography */
+  --font-body:    "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Syne", "IBM Plex Sans", sans-serif;
+
+  /* Radius */
+  --r-sm:   10px;
+  --r-md:   16px;
+  --r-lg:   22px;
+  --r-xl:   28px;
+  --r-full: 999px;
+
+  /* Shadows */
+  --shadow-panel: 0 4px 32px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-card:  0 8px 48px rgba(0, 0, 0, 0.6);
+  --shadow-mint:  0 0 24px rgba(65, 233, 160, 0.2);
+}
+
+/* ── Reset + Base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 1400px 700px at 15% -5%, rgba(10, 80, 120, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 900px 600px at 90% 5%,  rgba(80, 20, 60, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 600px 400px at 50% 100%, rgba(10, 60, 100, 0.18) 0%, transparent 60%);
+}
+
+button, textarea, input, select { font: inherit; }
+button { cursor: pointer; }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0 var(--mint-glow); }
+  70%  { box-shadow: 0 0 0 12px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+@keyframes dashFill {
+  from { stroke-dashoffset: 314; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes barGrow {
+  from { width: 0; }
+}
+
+@keyframes blink {
+  50% { opacity: 0.4; }
+}
+
+/* ── Skeleton loader ────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-3) 25%,
+    rgba(100, 160, 210, 0.08) 50%,
+    var(--bg-3) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--r-sm);
+}
