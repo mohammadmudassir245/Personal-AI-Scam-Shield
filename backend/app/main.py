@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.config import ALLOWED_ORIGINS
 from app.database import get_recent, init_db, record_analysis
 from app.pipeline import analyze, get_classifier
 from app.schemas import AnalyzeRequest, AnalyzeResponse, HistoryRecord
@@ -16,7 +17,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -25,7 +26,7 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     tb = traceback.format_exc()
-    print(tb)  # Always print full traceback to backend terminal
+    print(tb)
     return JSONResponse(
         status_code=500,
         content={"detail": f"{type(exc).__name__}: {exc}", "traceback": tb},
@@ -46,7 +47,6 @@ def health() -> dict:
 @app.post("/api/analyze", response_model=AnalyzeResponse)
 def analyze_endpoint(req: AnalyzeRequest) -> AnalyzeResponse:
     result = analyze(req)
-    # Persist metadata only — never the raw message content
     try:
         record_analysis(
             input_type=result.input_type,
@@ -57,7 +57,7 @@ def analyze_endpoint(req: AnalyzeRequest) -> AnalyzeResponse:
             techniques_count=len(result.techniques),
         )
     except Exception:
-        pass  # History failure must never break the analysis response
+        pass
     return result
 
 

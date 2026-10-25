@@ -1,24 +1,24 @@
-from pathlib import Path
+"""
+Central configuration — reads from environment variables with sensible defaults.
+"""
+import os
 
-ROOT = Path(__file__).resolve().parents[1]
-MODELS_DIR = ROOT / "models"
-DATABASE_PATH = ROOT / "scam_shield.db"
+# Frontend origin allowed for CORS.
+# In production set ALLOWED_ORIGIN to your Vercel deployment URL.
+ALLOWED_ORIGINS: list[str] = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
-RISK_WEIGHTS = {
-    "text": 0.28,
-    "url": 0.24,
-    "impersonation": 0.16,
-    "social": 0.18,
-    "rules": 0.14,
-}
+_extra = os.getenv("ALLOWED_ORIGIN", "").strip()
+if _extra:
+    ALLOWED_ORIGINS.append(_extra)
 
-RISK_BANDS = (
-    (25, "LOW", "Low risk"),
-    (50, "MODERATE", "Moderate risk"),
-    (75, "HIGH", "High risk"),
-    (100, "CRITICAL", "Critical risk"),
+# SQLite path — writable location on both local and Render
+DB_PATH: str = os.getenv("DB_PATH", "scam_shield.db")
+
+# Models directory
+MODELS_DIR: str = os.getenv(
+    "MODELS_DIR",
+    os.path.join(os.path.dirname(__file__), "..", "models"),
 )
-
-# Never fetch or execute submitted URLs. Analysis is local/heuristic only.
-FETCH_URLS = False
-STORE_CONTENT = False
