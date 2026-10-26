@@ -10,7 +10,7 @@ import threading
 from datetime import datetime, timezone
 from pathlib import Path
 
-from app.config import DATABASE_PATH
+from app.config import DB_PATH as DATABASE_PATH
 
 _lock = threading.Lock()
 
