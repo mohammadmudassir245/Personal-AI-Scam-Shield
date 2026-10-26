@@ -4,6 +4,9 @@
   "installCommand": "npm install",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://personal-ai-scam-shield-api.onrender.com/api/:path*" }
+    {
+      "source": "/api/:path*",
+      "destination": "https://personal-ai-scam-shield-api.onrender.com/api/:path*"
+    }
   ]
 }
