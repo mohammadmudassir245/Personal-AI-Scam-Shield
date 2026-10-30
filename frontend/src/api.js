@@ -1,4 +1,7 @@
-const BASE = "/api";
+// In development, Vite proxies /api → localhost:8000 (see vite.config.js).
+// In production (Vercel), /api is rewritten to the Render backend via vercel.json.
+// Override with VITE_API_BASE env var if needed.
+const BASE = import.meta.env.VITE_API_BASE ?? "/api";
 
 export async function analyze(payload) {
   let res;
@@ -8,9 +11,9 @@ export async function analyze(payload) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-  } catch (networkErr) {
+  } catch {
     throw new Error(
-      "Cannot reach the backend. Make sure the FastAPI server is running on port 8000 (run start.bat or: python -m uvicorn app.main:app --port 8000)."
+      "Cannot reach the backend. Make sure the FastAPI server is running on port 8000."
     );
   }
 
@@ -18,7 +21,6 @@ export async function analyze(payload) {
     let detail = `Request failed (${res.status})`;
     try {
       const body = await res.json();
-      // FastAPI validation errors have a "detail" field
       if (body?.detail) {
         detail = typeof body.detail === "string"
           ? body.detail
@@ -44,4 +46,3 @@ export async function getHistory(limit = 20) {
     return [];
   }
 }
-
