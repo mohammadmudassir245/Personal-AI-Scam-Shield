@@ -25,11 +25,10 @@ app.add_middleware(
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
-    tb = traceback.format_exc()
-    print(tb)
+    traceback.print_exception(type(exc), exc, exc.__traceback__)
     return JSONResponse(
         status_code=500,
-        content={"detail": f"{type(exc).__name__}: {exc}", "traceback": tb},
+        content={"detail": "An unexpected server error occurred."},
     )
 
 
